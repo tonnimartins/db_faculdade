@@ -1,0 +1,194 @@
+create database if not exists dbfaculdade
+default character set utf8mb3
+default collate utf8_general_ci;
+
+use dbfaculdade;
+
+create table if not exists tipo_telefone(
+	cod_tipo INTEGER(4),
+	tipo_telefone CHAR(8), 
+	PRIMARY KEY (cod_tipo)
+);
+
+DESCRIBE tipo_telefone;
+
+create table if not exists tipo_logradouro(
+	cod_tipo_logradouro INTEGER(4),
+    tipo_logradrouro CHAR(11),
+    PRIMARY KEY (cod_tipo_logradouro)
+    );
+    
+DESCRIBE tipo_logradouro;
+    
+create table if not exists departamento(
+	cod_departamento INTEGER(4),
+    nome_departamento CHAR(20),
+    PRIMARY KEY (cod_departamento)
+    );    
+    
+  DESCRIBE departamento;  
+  
+
+ create table if not exists telefone(
+	cod_telefone INTEGER(4),
+    num_telefone CHAR(20),
+    fk_cod_tipo INTEGER(4) NOT NULL,
+    PRIMARY KEY (cod_telefone),
+    FOREIGN KEY (fk_cod_tipo) REFERENCES tipo_telefone (cod_tipo)
+	);     
+
+DESCRIBE telefone;
+
+
+create table if not exists endereco(
+	cod_endereco INTEGER(4),
+    nome_rua CHAR(50),
+    num_rua INTEGER(4),
+    complemento CHAR(20),
+    CEP CHAR(8),
+    fk_cod_tipo_logradouro INTEGER(4) NOT NULL,
+    PRIMARY KEY (cod_endereco),
+    FOREIGN KEY (fk_cod_tipo_logradouro) REFERENCES tipo_logradouro (cod_tipo_logradouro)
+	);     
+  
+    DESCRIBE endereco;
+    
+create table if not exists curso(
+	cod_curso INTEGER(4),
+    nome_curso CHAR(20),
+    fk_cod_departamento INTEGER(4) NOT NULL,
+    PRIMARY KEY (cod_curso),
+    FOREIGN KEY (fk_cod_departamento) REFERENCES departamento (cod_departamento)
+	);      
+    
+	DESCRIBE curso;
+    
+create table if not exists turma(
+	cod_turma INTEGER(4),
+    periodo CHAR(8),
+    num_alunos INTEGER(4),
+    dt_inicio DATE, 
+    dt_fim DATE,
+    fk_cod_curso INTEGER(4) NOT NULL,
+    PRIMARY KEY (cod_turma),
+    FOREIGN KEY (fk_cod_curso) REFERENCES curso (cod_curso)
+	);      
+      
+    DESCRIBE turma;
+    
+create table if not exists aluno(
+	RA INTEGER(4) auto_increment, 
+    nome_aluno CHAR(20),
+    sobrenome_aluno CHAR(20),
+    CPF CHAR(11),
+    status BOOLEAN,
+    sexo CHAR(1),
+    nome_pai CHAR(50),
+    nome_mae CHAR(50),
+    email CHAR(50),
+    whatsapp CHAR(20),
+	fk_cod_curso INTEGER(4) NOT NULL,
+    fk_cod_turma INTEGER(4) NOT NULL,
+    fk_endereco_cod_endereco INTEGER(4) NOT NULL, 
+    PRIMARY KEY (RA), 
+	FOREIGN KEY (fk_cod_curso) REFERENCES curso (cod_curso),
+    FOREIGN KEY (fk_cod_turma) REFERENCES turma (cod_turma),
+    FOREIGN KEY (fk_endereco_cod_endereco) REFERENCES endereco (cod_endereco)
+	);      
+    
+    DESCRIBE aluno;
+    
+    
+create table if not exists professor(
+	cod_professor INTEGER(4),
+    nome_professor CHAR(20),
+    sobrenome_professor CHAR(50),
+    status BOOLEAN,
+    fk_cod_departamento INTEGER(4) NOT NULL,
+	PRIMARY KEY (cod_professor),
+    FOREIGN KEY (fk_cod_departamento) REFERENCES departamento (cod_departamento)
+	);    
+    
+    DESCRIBE professor;
+    
+    
+create table if not exists disciplina(
+	cod_disciplina INTEGER(4),
+    nome_disciplina CHAR(20),
+    carga_horaria INTEGER(4),
+    descricao CHAR(50),
+    num_alunos INTEGER(4),
+    fk_cod_departamento INTEGER(4) NOT NULL,
+    PRIMARY KEY (cod_disciplina),
+    FOREIGN KEY (fk_cod_departamento) REFERENCES departamento (cod_departamento)
+    );
+  
+
+    DESCRIBE disciplina;
+    
+create table if not exists professor_disciplina(
+	fk_cod_professor INTEGER(4) NOT NULL,
+    fk_cod_disciplina INTEGER(4) NOT NULL,
+   	FOREIGN KEY (fk_cod_professor) REFERENCES professor (cod_professor),
+    FOREIGN KEY (fk_cod_disciplina) REFERENCES disciplina (cod_disciplina)
+    ); 
+    
+	DESCRIBE professor_disciplina;
+     
+create table if not exists curso_disciplina(
+	fk_cod_curso INTEGER(4) NOT NULL,
+    fk_cod_disciplina INTEGER(4) NOT NULL,
+	FOREIGN KEY (fk_cod_curso) REFERENCES curso (cod_curso),
+    FOREIGN KEY (fk_cod_disciplina) REFERENCES disciplina (cod_disciplina)
+    );   
+    
+    DESCRIBE curso_disciplina;
+    
+    
+create table if not exists aluno_disciplina(
+	fk_RA INTEGER(4) NOT NULL,
+    fk_cod_disciplina INTEGER(4) NOT NULL,
+	FOREIGN KEY (fk_RA) REFERENCES aluno (RA),
+    FOREIGN KEY (fk_cod_disciplina) REFERENCES disciplina (cod_disciplina)
+    );  
+    
+    DESCRIBE aluno_disciplina;
+    
+    
+create table if not exists historico(
+	cod_historico INTEGER(4),
+	data_inicio DATE,
+	data_fim DATE,
+    fk_RA INTEGER(4) NOT NULL,
+    PRIMARY KEY (cod_historico),
+    FOREIGN KEY (fk_RA) REFERENCES aluno (RA)
+    );
+   
+    DESCRIBE historico;
+    
+    create table if not exists disciplina_historico(
+	fk_cod_historico INTEGER(4) NOT NULL,
+	fk_cod_disciplina INTEGER (4)NOT NULL,
+	nota FLOAT (4,2),
+    frequencia INTEGER(4),
+	FOREIGN KEY (fk_cod_historico) REFERENCES historico (cod_historico),
+    FOREIGN KEY (fk_cod_disciplina) REFERENCES disciplina (cod_disciplina)
+    );
+    DESCRIBE disciplina_historico;
+    
+create table if not exists telefone_aluno(
+	cod_tel_aluno INTEGER(4),
+	fk_RA INTEGER(4) NOT NULL,
+	fk_cod_telefone INTEGER(4) NOT NULL,
+	PRIMARY KEY (cod_tel_aluno),
+	FOREIGN KEY (fk_RA) REFERENCES aluno (RA),
+	FOREIGN KEY (fk_cod_telefone) REFERENCES telefone (cod_telefone)
+	);
+   
+   DESCRIBE telefone_aluno;
+   
+   
+
+   
+   
+    
