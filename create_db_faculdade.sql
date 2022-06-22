@@ -42,7 +42,7 @@ create table if not exists endereco(
      
 create table if not exists curso(
 	cod_curso INTEGER(4) PRIMARY KEY AUTO_INCREMENT,
-    nome_curso CHAR(20),
+    nome_curso CHAR(50),
     fk_cod_departamento INTEGER(4),
 	FOREIGN KEY (fk_cod_departamento) REFERENCES departamento (cod_departamento)
 	);      
@@ -50,7 +50,7 @@ create table if not exists curso(
     
 create table if not exists turma(
 	cod_turma INTEGER(4) PRIMARY KEY AUTO_INCREMENT,
-    periodo CHAR(8),
+    periodo CHAR(15),
     num_alunos INTEGER(4),
     dt_inicio DATE, 
     dt_fim DATE,
@@ -91,7 +91,7 @@ create table if not exists professor(
     
 create table if not exists disciplina(
 	cod_disciplina INTEGER(4) PRIMARY KEY AUTO_INCREMENT,
-    nome_disciplina CHAR(20),
+    nome_disciplina CHAR(50),
     carga_horaria INTEGER(4) NOT NULL,
     descricao CHAR(50),
     num_alunos INTEGER(4) NOT NULL,
@@ -154,4 +154,3 @@ create table if not exists telefone_aluno(
 	FOREIGN KEY (fk_cod_telefone) REFERENCES telefone (cod_telefone),
     FOREIGN KEY (fk_RA) REFERENCES aluno (RA)
 	);
-    
