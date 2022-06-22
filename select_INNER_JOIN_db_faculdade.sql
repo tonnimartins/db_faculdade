@@ -7,7 +7,7 @@ INNER JOIN curso c
 	ON a.fk_cod_curso = c.cod_curso
 INNER JOIN turma t
 	ON a.fk_cod_turma = t.cod_turma
-ORDER BY a.nome;
+ORDER BY a.nome_aluno;
 
 SELECT * FROM vw_alunocurso;
 
