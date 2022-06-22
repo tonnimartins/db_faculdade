@@ -1,0 +1,33 @@
+CONCEDENDO ACESSOS E CRIANDO PERFIS (db_faculdade)
+
+1 mysql -u root -p
+2 CREATE USER Professor@localhost IDENTIFIED BY '1234';
+3 SELECT USER FROM mysql.user;
+4 GRANT SELECT ON db_faculdade.disciplina TO Professor@localhost;
+5 GRANT SELECT ON db_faculdade.turma TO Professor@localhost;
+6 GRANT SELECT ON db_faculdade.departamento TO Professor@localhost;
+7 GRANT SELECT ON db_faculdade.professor TO Professor@localhost;
+8 GRANT UPDATE (nome_professor, sobrenome_professor, status, fk_cod_departamento) ON db_faculdade.professor TO Professor@localhost;
+9 GRANT INSERT ON db_faculdade.professor TO Professor@localhost;
+10 CREATE USER Aluno@localhost IDENTIFIED BY '1234';
+11 SELECT USER FROM mysql.user;
+12 GRANT SELECT ON db_faculdade.disciplina TO Aluno@localhost;
+13 GRANT SELECT ON db_faculdade.turma TO Aluno@localhost;
+14 GRANT SELECT ON db_faculdade.aluno TO Aluno@localhost;
+15 GRANT SELECT ON db_faculdade.endereco TO Aluno@localhost;
+16 GRANT SELECT ON db_faculdade.telefone TO Aluno@localhost;
+17 GRANT INSERT ON db_faculdade.endereco TO Aluno@localhost;
+18 GRANT INSERT ON db_faculdade.aluno TO Aluno@localhost;
+19 GRANT INSERT ON db_faculdade.telefone TO Aluno@localhost;
+20 GRANT UPDATE ON db_faculdade.aluno TO Aluno@localhost;
+21 CREATE USER Diretor@localhost IDENTIFIED BY '1234';
+22 SELECT USER FROM mysql.user;
+23 GRANT ALL PRIVILEGES ON db_faculdade.* TO Diretor@localhost;
+24 CREATE USER Secretaria@localhost IDENTIFIED BY '1234';
+25 SELECT USER FROM mysql.user;
+26 GRANT SELECT ON db_faculdade.* TO Secretaria@localhost;
+27 GRANT INSERT ON db_faculdade.* TO Secretaria@localhost;
+28 GRANT UPDATE ON db_faculdade.professor TO Secretaria@localhost;
+29 GRANT UPDATE ON db_faculdade.departamento TO Secretaria@localhost;
+30 GRANT UPDATE ON db_faculdade.curso TO Secretaria@localhost;
+31 GRANT UPDATE ON db_faculdade.disciplina TO Secretaria@localhost;
